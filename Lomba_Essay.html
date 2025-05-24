@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Competition - Inforvation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { 
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px rgba(179, 0, 36, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(179, 0, 36, 0.6); }
+            100% { box-shadow: 0 0 20px rgba(179, 0, 36, 0.3); }
+        }
+
+        /* Loading animation */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #b30024;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* Header styles */
+        header {
+            background: linear-gradient(to top, rgb(39, 6, 14), rgb(141, 22, 52));
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-desktop {
+            display: none;
+        }
+        
+        .nav-desktop ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .nav-desktop li {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-desktop li a {
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            display: block;
+        }
+        
+        .nav-desktop li:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-desktop li:hover:after {
+            width: 100%;
+        }
+
+        .nav-desktop li:hover a {
+            transform: translateY(-2px);
+            color: #ffcccc;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1) rotate(90deg);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgb(39, 6, 14), rgb(141, 22, 52));
+            z-index: 200;
+            transition: right 0.3s ease;
+            padding: 2rem 1rem;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mobile-menu-logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .close-menu:hover {
+            transform: rotate(90deg) scale(1.1);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-nav {
+            list-style: none;
+        }
+
+        .mobile-menu-nav li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-nav a {
+            color: white;
+            font-size: 1.1rem;
+            display: block;
+            padding: 0.75rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .mobile-menu-nav a:hover {
+            color: #ffcccc;
+            border-bottom-color: rgba(255,255,255,0.3);
+            transform: translateX(10px);
+            background-color: rgba(255, 255, 255, 0.05);
+            padding-left: 1rem;
+        }
+
+        .mobile-register-btn {
+            background-color: white;
+            color: #b30024;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mobile-register-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .register-btn {
+            background-color: white;
+            color: #b30024;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: none;
+            cursor: pointer;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(179, 0, 36, 0.1);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .register-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .register-btn:hover::before {
+            left: 0;
+        }
+
+        /* Competition Hero Section - Improved */
+        .competition-hero {
+            background: linear-gradient(135deg, #b30024 0%, #8d1634 50%, #b30024 100%);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .competition-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .competition-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .competition-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: white;
+            animation: glow 3s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .competition-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ffcccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 3px;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .competition-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        /* Competition Content */
+        .competition-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .competition-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .info-text {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 6px solid #b30024;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #b30024, #ff6b6b);
+            border-radius: 0 20px 0 100px;
+            opacity: 0.1;
+        }
+
+        .info-text h3 {
+            color: #b30024;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .info-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .competition-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #b30024, #8d1634);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(179, 0, 36, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #1a237e, #3f51b5);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26, 35, 126, 0.4);
+        }
+
+        .competition-image {
+            text-align: center;
+        }
+
+        .competition-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .competition-image img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        /* Schedule Section - Improved to match reference */
+        .schedule {
+            padding: 4rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .schedule.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            color: #b30024;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #b30024, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, #b30024, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -3rem;
+            top: 0.5rem;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #b30024, #ff6b6b);
+            box-shadow: 0 4px 15px rgba(179, 0, 36, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(179, 0, 36, 0.5);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 4px solid #b30024;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .timeline-time {
+            color: #b30024;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Prizes Section */
+        .prizes {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 4rem 1rem;
+            margin: 3rem 0;
+            border-radius: 20px;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .prize-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-15px) rotate(3deg);
+            box-shadow: 0 15px 40px rgba(179, 0, 36, 0.2);
+            border-color: #b30024;
+        }
+
+        .prize-image {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(45deg, #b30024, #ff6b6b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .prize-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .prize-amount {
+            color: #b30024;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            background: linear-gradient(135deg, #b30024, #8d1634);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .submit-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+            font-weight: 700;
+        }
+
+        .submit-btn {
+            background: white;
+            color: #b30024;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 2;
+            border: none;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(to top, rgb(39, 6, 14), rgb(141, 22, 52));
+            color: #333;
+            padding: 3rem 1rem 2rem;
+            position: relative;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .telkom-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .telkom-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .telkom-logo {
+            width: 60px;
+            height: 60px;
+            background: #b30024;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            line-height: 1.2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .telkom-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 4px 15px rgba(179, 0, 36, 0.3);
+        }
+
+        .telkom-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .telkom-header:hover .telkom-title {
+            color: #b30024;
+        }
+
+        .address-section h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .address-text {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .faq-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .faq-column h4 {
+            color: #b30024;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .faq-links {
+            list-style: none;
+        }
+
+        .faq-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-links a {
+            color: #666;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            padding: 0.25rem 0;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .faq-links a:hover {
+            color: #b30024;
+            transform: translateX(5px);
+            background-color: rgba(179, 0, 36, 0.05);
+            padding-left: 0.5rem;
+        }
+
+        .contact-section {
+            text-align: center;
+            background: #b30024;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .contact-section:hover {
+            background: linear-gradient(135deg, #b30024, #8d1634);
+        }
+
+        .contact-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .contact-section p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .contact-btn {
+            background: white;
+            color: #b30024;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-social a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(179, 0, 36, 0.3);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .competition-title {
+                font-size: 2.5rem;
+            }
+            
+            .competition-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .competition-info {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 2fr 1fr;
+            }
+
+            .telkom-info {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .address-section {
+                flex: 1;
+            }
+
+            .faq-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .nav-desktop {
+                display: block;
+            }
+
+            .register-btn {
+                display: block;
+            }
+
+            .hamburger {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+
+            .faq-section {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo">INFORVATION</div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-menu-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html">About</a></li>
+            <li><a href="Seminar_fix.html">Seminar</a></li>
+            <li><a href="schedule">Schedule</a></li>
+            <li><a href="prizes">Prizes</a></li>
+            <li><a href="sponsors">Sponsors</a></li>
+        </ul>
+        <a href="#" class="mobile-register-btn">Contact</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                INFORVATION
+            </div>
+            <nav class="nav-desktop">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="Seminar_fix.html">Seminar</a></li>
+                    <li><a href="schedule">Schedule</a></li>
+                    <li><a href="prizes">Prizes</a></li>
+                    <li><a href="sponsors">Sponsors</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="#" class="register-btn">Contact</a>
+        </div>
+    </header>
+
+    <!-- Competition Hero -->
+    <section class="competition-hero">
+        <div class="competition-hero-content">
+            <div class="competition-icon">
+                <i class="fas fa-pen-fancy"></i>
+            </div>
+            <h1 class="competition-title">ESSAY</h1>
+            <p class="competition-subtitle">Kompetisi Menulis Esai Kreatif & Inovatif</p>
+        </div>
+    </section>
+
+    <!-- Competition Content -->
+    <div class="competition-content">
+        <div class="competition-info">
+            <div class="info-text">
+                <h3>Essay Writing Challenge</h3>
+                <p>Kompetisi menulis esai yang menantang kreativitas dan kemampuan analitis peserta dalam mengekspresikan ide-ide inovatif melalui tulisan yang berkualitas. Tema yang diangkat mencakup teknologi, sosial, dan masa depan.</p>
+                <p>Sudah memiliki hasil karya lomba? Yuk kirim klik di sini!</p>
+                <div class="competition-buttons">
+                    <button class="btn-primary">Daftar Sekarang</button>
+                    <button class="btn-secondary">Lihat Pedoman</button>
+                </div>
+            </div>
+            <div class="competition-image">
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Essay Competition">
+            </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <section class="schedule">
+            <h2 class="section-title">Schedule</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-delay="0">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Pembukaan Pendaftaran</h3>
+                        <p class="timeline-time">15 Agustus 2025, 09:00 WIB</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-delay="100">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Workshop Penulisan</h3>
+                        <p class="timeline-time">20 Agustus 2025, 10:30 WIB</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-delay="200">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Batas Pengumpulan</h3>
+                        <p class="timeline-time">30 Agustus 2025, 23:59 WIB</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-delay="300">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Penilaian Juri</h3>
+                        <p class="timeline-time">1-5 September 2025</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-delay="400">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Pengumuman Pemenang</h3>
+                        <p class="timeline-time">10 September 2025, 17:00 WIB</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prizes Section -->
+        <section class="prizes">
+            <h2 class="section-title">Prizes</h2>
+            <div class="prizes-grid">
+                <div class="prize-card">
+                    <div class="prize-image">🏆</div>
+                    <h3 class="prize-title">Juara 1</h3>
+                    <p class="prize-amount">Rp 10.000.000</p>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-image">🥈</div>
+                    <h3 class="prize-title">Juara 2</h3>
+                    <p class="prize-amount">Rp 5.000.000</p>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-image">🥉</div>
+                    <h3 class="prize-title">Juara 3</h3>
+                    <p class="prize-amount">Rp 2.500.000</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Telkom University Info Section -->
+            <div class="footer-section">
+                <div class="telkom-info">
+                    <div class="telkom-header">
+                        <div class="telkom-logo">
+                            Telkom<br>University
+                        </div>
+                        <div class="telkom-title">Telkom University</div>
+                    </div>
+                </div>
+                <div class="address-section">
+                    <h4>Alamat</h4>
+                    <p class="address-text">
+                        Jl. Minangkabau selatan
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="footer-section">
+                <div class="faq-section">
+                    <div class="faq-column">
+                        <h4>FAQ</h4>
+                        <ul class="faq-links">
+                            <li><a href="#">Umum</a></li>
+                            <li><a href="#">Persyaratan Pendaftaran</a></li>
+                        </ul>
+                    </div>
+                    <div class="faq-column">
+                        <ul class="faq-links" style="margin-top: 2.5rem;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="footer-section contact-section">
+                <h3>Ada Pertanyaan?</h3>
+                <p>Hubungi kami sekarang, jika ada pertanyaan lebih lanjut.</p>
+                <a href="#" class="contact-btn">Kontak Kami</a>
+            </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 Inforvation Expo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loader-container').classList.add('loader-hidden');
+            }, 1000);
+        });
+
+        // Hamburger Menu Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMenu = document.getElementById('closeMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-nav a');
+
+            // Open menu
+            hamburger.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close menu function
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Close menu events
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuOverlay.addEventListener('click', closeMobileMenu);
+
+            // Close menu when clicking on links
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                }
+            });
+
+            // Scroll animations
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                    rect.bottom >= 0
+                );
+            }
+
+            const sections = document.querySelectorAll('.schedule');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            checkAnimations();
+            window.addEventListener('scroll', checkAnimations);
+
+            function checkAnimations() {
+                sections.forEach(section => {
+                    if (isInViewport(section)) {
+                        section.classList.add('animate');
+                    }
+                });
+
+                timelineItems.forEach(item => {
+                    if (isInViewport(item)) {
+                        setTimeout(() => {
+                            item.classList.add('animate');
+                        }, parseInt(item.getAttribute('data-delay') || 0));
+                    }
+                });
+            }
+
+                document.getElementById('').addEventListener('click', function(e) {
+                 e.preventDefault(); // mencegah aksi default <a href="#">
+        });
+        });
+    </script>
+</body>
+</html>
