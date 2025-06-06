@@ -1729,37 +1729,34 @@
             <h2 class="section-title">Contact Us</h2>
             <div class="contact-form">
                 <h3>Get In Touch</h3>
-                <form>
+                <form onsubmit="return sendToWhatsApp();">
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your name" required>
+                            <input type="text" id="name" class="form-control" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Your Email Address" required>
+                            <input type="email" id="email" class="form-control" placeholder="Your Email Address" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="tel" class="form-control" placeholder="Your Phone Number">
+                            <input type="tel" id="phone" class="form-control" placeholder="Your Phone Number">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your University">
+                            <input type="text" id="university" class="form-control" placeholder="Your University">
                         </div>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Your message" rows="5"></textarea>
-                    </div>
-                    <div class="contact-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <textarea id="message" class="form-control" placeholder="Your message" rows="5"></textarea>
                     </div>
                     <div class="form-buttons">
-                        <button type="submit" class="btn-submit">Submit</button>
+                        <button type="submit" class="btn-submit">Submit via WhatsApp</button>
                         <button type="reset" class="btn-clear">Clear</button>
                     </div>
                 </form>
+
+
+
             </div>
         </div>
     </section>
@@ -1827,6 +1824,26 @@
 
     <!-- JavaScript -->
     <script>
+
+        function sendToWhatsApp() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const university = document.getElementById("university").value;
+            const message = document.getElementById("message").value;
+
+            const text = `Halo! Saya ingin mendaftar.\n\n` +
+                        `Nama: ${name}\n` +
+                        `Email: ${email}\n` +
+                        `No. HP: ${phone}\n` +
+                        `Universitas: ${university}\n` +
+                        `Pesan: ${message}`;
+
+            const whatsappURL = `https://wa.me/6285693516592?text=${encodeURIComponent(text)}`;
+            window.open(whatsappURL, '_blank');
+
+            return false; // Mencegah form reload
+        }
         // Loading animation
         window.addEventListener('load', function() {
             setTimeout(function() {
