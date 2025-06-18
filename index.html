@@ -6,7 +6,7 @@
     <title>Inforvation Expo 2025</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
+   <style>
         /* Reset and base styles */
         * {
             margin: 0;
@@ -16,7 +16,7 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: white;
             color: #333;
             line-height: 1.6;
             overflow-x: hidden;
@@ -32,28 +32,6 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        @keyframes slideInLeft {
-            from { 
-                transform: translateX(-50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInRight {
-            from { 
-                transform: translateX(50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
 
         @keyframes slideInUp {
@@ -111,17 +89,18 @@
         .loader-hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
         
-        /* Header styles */
+        /* IMPROVED Header styles */
         header {
             background: linear-gradient(to right, #330013, #660026);
             color: white;
-            padding: 1rem;
+            padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             animation: fadeIn 0.5s ease-out;
         }
         
@@ -129,46 +108,78 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
         }
         
-        .logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
+        /* IMPROVED Logo positioning - more to the left */
+
+        .telkom-title {
+            height: 70px;
+            object-fit: contain;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            padding: 0.5rem;
+            margin-right: auto;
+            flex-shrink: 0;
         }
 
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: white;
-            transition: width 0.3s ease;
-        }
-
-        .logo:hover::after {
-            width: 100%;
-        }
-
-        .logo:hover {
+        .logo-container:hover {
             transform: translateY(-2px);
         }
-        
-        .nav-desktop {
-            display: none;
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .logo-container:hover .logo-image {
+            transform: scale(1.1);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #ffeeee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-container:hover .logo-text {
+            transform: translateY(-1px);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         }
         
+        /* IMPROVED Desktop Navigation - centered with consistent spacing */
+        .nav-desktop {
+            display: none; /* Hide by default, show on larger screens */
+            flex: 1;
+            justify-content: center;
+            margin-left: 40px;
+        }
+                
         .nav-desktop ul {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 0.75rem;
+            align-items: center;
         }
         
         .nav-desktop li {
@@ -178,8 +189,12 @@
 
         .nav-desktop li a {
             transition: all 0.3s ease;
-            padding: 0.5rem 0;
+            padding: 0.75rem 1rem;
             display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            white-space: nowrap;
         }
         
         .nav-desktop li:after {
@@ -188,21 +203,31 @@
             width: 0;
             height: 2px;
             background-color: white;
-            bottom: -5px;
-            left: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             transition: width 0.3s ease;
         }
         
         .nav-desktop li:hover:after {
-            width: 100%;
+            width: 80%;
         }
 
         .nav-desktop li:hover a {
             transform: translateY(-2px);
             color: #ffcccc;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Hamburger Menu Styles - Optimized for Android */
+        /* IMPROVED Header right section - contact button more to the right */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
         .hamburger {
             display: block;
             background: none;
@@ -212,32 +237,28 @@
             cursor: pointer;
             padding: 0.75rem;
             transition: all 0.3s ease;
-            border-radius: 4px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            border-radius: 6px;
         }
 
-        .hamburger:hover,
-        .hamburger:focus,
-        .hamburger:active {
+        .hamburger:hover {
             transform: scale(1.1) rotate(90deg);
             background-color: rgba(255, 255, 255, 0.1);
-            outline: none;
         }
 
+        /* IMPROVED Mobile menu */
         .mobile-menu {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 280px;
+            width: 80%; /* Changed from fixed 320px to be more responsive */
+            max-width: 320px;
             height: 100vh;
             background: linear-gradient(to bottom, rgb(39, 6, 14), rgb(141, 22, 52));
             z-index: 200;
             transition: right 0.3s ease;
-            padding: 2rem 1rem;
+            padding: 2rem 1.5rem;
             box-shadow: -5px 0 15px rgba(0,0,0,0.3);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .mobile-menu.active {
@@ -248,15 +269,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(255,255,255,0.2);
         }
 
         .mobile-menu-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .mobile-menu-logo span {
             font-weight: bold;
             font-size: 1.2rem;
             color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .close-menu {
@@ -268,16 +305,11 @@
             padding: 0.75rem;
             transition: all 0.3s ease;
             border-radius: 50%;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
 
-        .close-menu:hover,
-        .close-menu:focus,
-        .close-menu:active {
+        .close-menu:hover {
             transform: rotate(90deg) scale(1.1);
             background-color: rgba(255, 255, 255, 0.1);
-            outline: none;
         }
 
         .mobile-menu-nav {
@@ -285,49 +317,41 @@
         }
 
         .mobile-menu-nav li {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .mobile-menu-nav a {
             color: white;
             font-size: 1.1rem;
+            font-weight: 500;
             display: block;
-            padding: 0.75rem 0;
+            padding: 1rem 1.25rem;
             transition: all 0.3s ease;
-            border-bottom: 1px solid transparent;
-            border-radius: 4px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .mobile-menu-nav a:hover,
-        .mobile-menu-nav a:focus,
-        .mobile-menu-nav a:active {
+        .mobile-menu-nav a:hover {
             color: #ffcccc;
-            border-bottom-color: rgba(255,255,255,0.3);
-            transform: translateX(10px);
-            background-color: rgba(255, 255, 255, 0.05);
-            padding-left: 1rem;
+            transform: translateX(8px);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .mobile-register-btn {
             background-color: white;
             color: #b30024;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             font-weight: bold;
+            font-size: 1.1rem;
             display: block;
             text-align: center;
             margin-top: 2rem;
             transition: all 0.3s ease;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
 
-        .mobile-register-btn:hover,
-        .mobile-register-btn:focus,
-        .mobile-register-btn:active {
+        .mobile-register-btn:hover {
             background-color: #f0f0f0;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -344,7 +368,6 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .menu-overlay.active {
@@ -352,18 +375,22 @@
             visibility: visible;
         }
         
+        /* IMPROVED Register button - positioned more to the right */
         .register-btn {
             background-color: white;
             color: #b30024;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
             font-weight: bold;
+            font-size: 1rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             z-index: 1;
             display: none;
             cursor: pointer;
+            white-space: nowrap;
+            margin-left: 1rem;
         }
 
         .register-btn::before {
@@ -381,7 +408,7 @@
         .register-btn:hover {
             background-color: #f0f0f0;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .register-btn:hover::before {
@@ -408,6 +435,8 @@
             max-width: 800px;
             margin: 0 auto;
             animation: fadeIn 1s ease-out;
+            width: 100%; /* Added for better responsiveness */
+            padding: 0 15px; /* Added padding for small screens */
         }
         
         .hero-logo {
@@ -496,7 +525,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         .btn-contact:hover {
@@ -543,46 +572,51 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .about-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .about-card {
-            background: linear-gradient(135deg, #1c276d 0%, #263dae 100%);
-            color: white;
+            background: white;
+            color: #333;
             padding: 2rem;
             border-radius: 12px;
             text-align: left;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #e5e7eb;
         }
 
         .about-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(28, 39, 109, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #8d1632;
         }
 
         .about-card i {
             font-size: 2rem;
             margin-bottom: 1rem;
-            color: #fff;
+            color: #8d1632;
         }
 
         .about-card h3 {
             font-size: 1.2rem;
             margin-bottom: 1rem;
             font-weight: 700;
+            color: #333;
         }
 
         .about-card p {
             font-size: 0.95rem;
             line-height: 1.6;
-            opacity: 0.9;
+            color: #666;
         }
 
         /* Competition section */
@@ -594,11 +628,12 @@
         .competition-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .competition-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Reduced minimum width for better mobile display */
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -666,6 +701,7 @@
         .seminar-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .seminar-card {
@@ -674,6 +710,7 @@
             border-radius: 16px;
             padding: 2rem;
             display: flex;
+            flex-direction: column; /* Default to column for mobile */
             align-items: center;
             gap: 2rem;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
@@ -682,6 +719,7 @@
 
         .seminar-content {
             flex: 1;
+            width: 100%; /* Full width on mobile */
         }
 
         .seminar-content h3 {
@@ -699,7 +737,8 @@
 
         .seminar-image {
             flex: 1;
-            max-width: 400px;
+            max-width: 100%; /* Full width on mobile */
+            width: 100%;
         }
 
         .seminar-image img {
@@ -718,6 +757,7 @@
         .schedule-container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .timeline {
@@ -746,6 +786,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #f0f0f0;
         }
 
         .timeline-item:hover {
@@ -790,11 +831,12 @@
         .prizes-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .prizes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Reduced minimum width for better mobile display */
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -807,6 +849,7 @@
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #f0f0f0;
         }
 
         .prize-card:hover {
@@ -843,6 +886,7 @@
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .sponsors-grid {
@@ -857,7 +901,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background-color: #e8e1d8;
+            background-color: #f8f9fa;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             display: flex;
@@ -865,6 +909,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #f0f0f0;
         }
 
         .sponsor-logo:hover {
@@ -887,6 +932,7 @@
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .faq-item {
@@ -931,12 +977,13 @@
         /* Contact section */
         .contact {
             padding: 4rem 1rem;
-            background: #f8f9fa;
+            background: white;
         }
 
         .contact-container {
             max-width: 600px;
             margin: 0 auto;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .contact-form {
@@ -1024,12 +1071,13 @@
             transform: translateY(-2px);
         }
 
-        /* Footer - Optimized for Android */
+        /* Footer */
         .footer {
             background: linear-gradient(to bottom, #8d1634, #27060e);
             color: white;
             padding: 3rem 1rem 2rem;
             position: relative;
+            border-top: 1px solid #e5e7eb;
         }
         
         .footer-content {
@@ -1038,20 +1086,22 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+            padding: 0 15px; /* Added padding for small screens */
         }
 
         .footer-section {
-            background: white;
+            background: #f8f9fa;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #e5e7eb;
         }
 
         .footer-section:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
         .telkom-info {
@@ -1070,7 +1120,6 @@
         .telkom-logo {
             width: 60px;
             height: 60px;
-            background: #b30024;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -1082,12 +1131,9 @@
             line-height: 1.2;
             transition: all 0.3s ease;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .telkom-logo:hover,
-        .telkom-logo:focus,
-        .telkom-logo:active {
+        .telkom-logo:hover {
             transform: scale(1.1) rotate(5deg);
             box-shadow: 0 4px 15px rgba(179, 0, 36, 0.3);
         }
@@ -1117,7 +1163,7 @@
 
         .faq-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
 
@@ -1143,13 +1189,10 @@
             padding: 0.25rem 0;
             display: block;
             border-radius: 4px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            cursor: pointer;
         }
 
-        .faq-links a:hover,
-        .faq-links a:focus,
-        .faq-links a:active {
+        .faq-links a:hover {
             color: #b30024;
             transform: translateX(5px);
             background-color: rgba(179, 0, 36, 0.05);
@@ -1187,81 +1230,12 @@
             display: inline-block;
             transition: all 0.3s ease;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
 
-        .contact-btn:hover,
-        .contact-btn:focus,
-        .contact-btn:active {
+        .contact-btn:hover {
             background: #f0f0f0;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        /* Footer contact info - Android optimized */
-        .footer-contact-info {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .contact-info-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .contact-info-item:hover,
-        .contact-info-item:focus,
-        .contact-info-item:active {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .contact-info-item i {
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info-item span {
-            color: white;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .footer-links a {
-            color: white;
-            font-weight: 500;
-            padding: 0.5rem;
-            transition: all 0.3s ease;
-            border-radius: 4px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .footer-links a:hover,
-        .footer-links a:focus,
-        .footer-links a:active {
-            color: #ffcccc;
-            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .footer-social {
@@ -1275,50 +1249,19 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #b30024;
             transition: all 0.3s ease;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            border: 1px solid #e5e7eb;
         }
 
-        .footer-social a:hover,
-        .footer-social a:focus,
-        .footer-social a:active {
-            background-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 5px 15px rgba(179, 0, 36, 0.3);
-        }
-        .contact-social {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .contact-social a {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .footer-social a:hover {
+            background-color: #b30024;
             color: white;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .contact-social a:hover,
-        .contact-social a:focus,
-        .contact-social a:active {
-            background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-3px) scale(1.1);
             box-shadow: 0 5px 15px rgba(179, 0, 36, 0.3);
         }
@@ -1326,24 +1269,37 @@
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255,255,255,0.1); /* Changed for better visibility */
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.7); /* Changed for better visibility */
         }
         
-        /* Media queries for responsiveness */
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2rem;
+        /* IMPROVED Media queries for responsiveness */
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 1rem;
             }
-            
-            .hero h2 {
+
+            .logo-text {
                 font-size: 1.2rem;
             }
 
+            .logo-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.1rem;
+            }
+
             .hero-logo {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
             }
 
             .hero-buttons {
@@ -1354,6 +1310,8 @@
             .btn-learn, .btn-contact {
                 width: 100%;
                 max-width: 250px;
+                font-size: 1rem;
+                padding: 0.875rem 1.5rem;
             }
 
             .form-row {
@@ -1370,23 +1328,97 @@
                 max-width: 200px;
             }
 
-            .footer-contact-info {
+            .competition-grid {
                 grid-template-columns: 1fr;
             }
 
-            .footer-links {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            /* Improved timeline for small screens */
+            .timeline {
+                padding-left: 2.5rem;
+            }
+            
+            .timeline-dot {
+                left: -2.5rem;
+                width: 25px;
+                height: 25px;
+            }
+            
+            .timeline-item {
+                padding: 1rem;
+            }
+            
+            .timeline-content h3 {
+                font-size: 1rem;
+            }
+            
+            /* Improved FAQ for small screens */
+            .faq-question {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.2rem;
             }
 
-            .sponsor-logo {
-                width: 100px;
-                height: 100px;
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            /* Improved contact form for small screens */
+            .contact-form {
+                padding: 1.5rem;
+            }
+            
+            /* Improved prize cards for small screens */
+            .prize-card {
+                padding: 1.5rem;
+            }
+            
+            /* Improved about cards for small screens */
+            .about-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 576px) and (max-width: 767px) {
+            /* Additional styles for small tablets */
+            .seminar-card {
+                padding: 1.5rem;
+            }
+            
+            .competition-card {
+                padding: 1.5rem;
+            }
+            
+            .footer-section {
+                padding: 1.5rem;
             }
         }
 
         @media (min-width: 768px) {
             .seminar-card {
                 flex-direction: row;
+            }
+            
+            .seminar-image {
+                max-width: 400px;
             }
 
             .footer-content {
@@ -1406,19 +1438,20 @@
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-
-            .footer-contact-info {
-                grid-template-columns: repeat(4, 1fr);
+            
+            /* Improved form layout for tablets */
+            .form-buttons {
+                flex-direction: row;
             }
-
-            .footer-links {
-                grid-template-columns: repeat(5, 1fr);
+            
+            .btn-submit, .btn-clear {
+                width: auto;
             }
         }
         
         @media (min-width: 992px) {
             .nav-desktop {
-                display: block;
+                display: flex; /* Show on larger screens */
             }
 
             .register-btn {
@@ -1446,17 +1479,82 @@
             }
         }
 
-        /* Animation delay classes */
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
+        @media (min-width: 1200px) {
+            .header-container {
+                padding: 0 3rem;
+            }
+            
+            /* Additional improvements for large screens */
+            .hero-content {
+                max-width: 900px;
+            }
+            
+            .about-description {
+                max-width: 900px;
+            }
+        }
+        
+        /* Additional responsive improvements */
+        @media (orientation: landscape) and (max-height: 500px) {
+            /* Styles for landscape mode on small devices */
+            .hero {
+                min-height: auto;
+                padding: 2rem 1rem;
+            }
+            
+            .hero-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-buttons {
+                margin-top: 1rem;
+            }
+            
+            .mobile-menu {
+                overflow-y: auto;
+            }
+        }
+        
+        /* Print styles for better printing */
+        @media print {
+            .hero, .about, .competition, .seminar, .schedule, .prizes, .sponsors, .faq, .contact {
+                page-break-inside: avoid;
+            }
+            
+            header, .footer, .mobile-menu, .menu-overlay, .loader-container {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+                color: black;
+            }
+            
+            .section-title {
+                color: black;
+            }
+            
+            .section-title::after {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Loading Animation -->
-    <div class="loader-container">
+    <div class="loader-container" id="loader">
         <div class="loader"></div>
     </div>
 
@@ -1466,46 +1564,52 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
-            <div class="mobile-menu-logo">INFORVATION</div>
+            <div class="mobile-menu-logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8%20%283%29.jpg-MAhV2AHyDBia8F26jV5Xa1vyITothz.jpeg" alt="Inforvation Logo">
+                <span>INFORVATION</span>
+            </div>
             <button class="close-menu" id="closeMenu">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <ul class="mobile-menu-nav">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#competition">Competition</a></li>
-            <li><a href="#seminar">Seminar</a></li>
-            <li><a href="#schedule">Schedule</a></li>
-            <li><a href="#prizes">Prizes</a></li>
-            <li><a href="#sponsors">Sponsors</a></li>
-            <li><a href="#faq">Faq</a></li>
-
+            <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
+            <li><a href="#about" onclick="scrollToSection('about')">About</a></li>
+            <li><a href="#competition" onclick="scrollToSection('competition')">Competition</a></li>
+            <li><a href="#seminar" onclick="scrollToSection('seminar')">Seminar</a></li>
+            <li><a href="#schedule" onclick="scrollToSection('schedule')">Schedule</a></li>
+            <li><a href="#prizes" onclick="scrollToSection('prizes')">Prizes</a></li>
+            <li><a href="#sponsors" onclick="scrollToSection('sponsors')">Sponsors</a></li>
+            <li><a href="#faq" onclick="scrollToSection('faq')">FAQ</a></li>
         </ul>
-        <a href="#contact" class="mobile-register-btn">Contact</a>
+        <a href="#contact" class="mobile-register-btn" onclick="scrollToSection('contact')">Contact</a>
     </div>
 
     <!-- Header -->
     <header>
         <div class="header-container">
-            <div class="logo">INFORVATION</div>
+            <div class="logo-container" onclick="scrollToSection('home')">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/8%20%283%29.jpg-MAhV2AHyDBia8F26jV5Xa1vyITothz.jpeg" alt="Inforvation Logo" class="logo-image">
+                <div class="logo-text">INFORVATION</div>
+            </div>
             <nav class="nav-desktop">
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#competition">Competition</a></li>
-                    <li><a href="#seminar">Seminar</a></li>
-                    <li><a href="#schedule">Schedule</a></li>
-                    <li><a href="#prizes">Prizes</a></li>
-                    <li><a href="#sponsors">Sponsors</a></li>
-                    <li><a href="#faq">Faq</a></li>
-
+                    <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
+                    <li><a href="#about" onclick="scrollToSection('about')">About</a></li>
+                    <li><a href="#competition" onclick="scrollToSection('competition')">Competition</a></li>
+                    <li><a href="#seminar" onclick="scrollToSection('seminar')">Seminar</a></li>
+                    <li><a href="#schedule" onclick="scrollToSection('schedule')">Schedule</a></li>
+                    <li><a href="#prizes" onclick="scrollToSection('prizes')">Prizes</a></li>
+                    <li><a href="#sponsors" onclick="scrollToSection('sponsors')">Sponsors</a></li>
+                    <li><a href="#faq" onclick="scrollToSection('faq')">FAQ</a></li>
                 </ul>
             </nav>
-            <button class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </button>
-            <a href="#contact" class="register-btn">Contact</a>
+            <div class="header-right">
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="#contact" class="register-btn" onclick="scrollToSection('contact')">Contact</a>
+            </div>
         </div>
     </header>
     
@@ -1518,12 +1622,7 @@
             <h1>INFORVATION EXPO 2025</h1>
             <h2>"Ignite Creativity. Empower Innovation."</h2>
             <div class="hero-buttons">
-                <a href="#about">
-                <button class="btn-learn">Learn More</button>
-                </a>
-                <a href="#contact">
-                    <button class="btn-contact">Contact Us</button>
-                </a>
+                <button class="btn-learn" onclick="scrollToSection('about')">Learn More</button>
             </div>
         </div>
     </section>
@@ -1566,14 +1665,14 @@
                 <div class="competition-card">
                     <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="UI/UX Competition">
                     <h3>UI/UX Design Competition</h3>
-                    <p>Lomba Esai INFORVATION 2025 mengangkat tema “Beyond Automation: AI sebagai Katalis bagi Negara Berkembang dalam Mewujudkan Generasi Emas”.  Kompetisi ini menjadi wadah strategis untuk mengasah pemikiran kritis dan menyuarakan gagasan transformatif mengenai peran Artificial Intelligence dalam menghadapi tantangan serta menciptakan terobosan di berbagai sektor dalam negara berkembang. </p>
-                    <a href="Lomba_UI.html" class="btn-outline">Learn More</a>
+                    <p>Lomba UI/UX INFORVATION 2025 mengangkat tema "Beyond Aesthetics: Membangun UI/UX yang Cerdas, Efisien, dan Berdaya Guna". Di era digital yang terus berkembang, pengalaman pengguna (User Experience) bukan sekadar soal tampilan visual. Melainkan harus intuitif, cepat, mudah digunakan, dan mampu memenuhi kebutuhan sehari-hari dengan cerdas.</p>
+                    <button class="btn-outline" onclick="redirectTo('Lomba_UI.html')">Learn More</button>
                 </div>
                 <div class="competition-card">
                     <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Essay Contest">
                     <h3>Innovation Essay Contest</h3>
-                    <p>Lomba UI/UX INFORVATION 2025 mengangkat tema “Beyond Aesthetics: Membangun UI/UX yang Cerdas, Efisien, dan Berdaya Guna”. Di era digital yang terus berkembang, pengalaman pengguna (User Experience) bukan sekadar soal tampilan visual. Melainkan harus intuitif, cepat, mudah digunakan, dan mampu memenuhi kebutuhan sehari-hari denfan cerdas. Kompetisi ini menjadi wadah strategis untuk berkreasi merancang solusi digital yang tidak hanya menarik secara estetika, namun juga fungsional dan berdampak nyata bagi pengguna. </p>
-                    <a href="Lomba_Essay.html" class="btn-outline" id= "essay" >Learn More</a>
+                    <p>Lomba Esai INFORVATION 2025 mengangkat tema "Beyond Automation: AI sebagai Katalis bagi Negara Berkembang dalam Mewujudkan Generasi Emas". Kompetisi ini menjadi wadah strategis untuk mengasah pemikiran kritis dan menyuarakan gagasan transformatif mengenai peran Artificial Intelligence dalam menghadapi tantangan serta menciptakan terobosan di berbagai sektor dalam negara berkembang.</p>
+                    <button class="btn-outline" onclick="redirectTo('Lomba_Essay.html')">Learn More</button>
                 </div>
             </div>
         </div>
@@ -1587,7 +1686,7 @@
                 <div class="seminar-content">
                     <h3>Inforvation: "TechFusion: Bridging Innovation"</h3>
                     <p>COMING SOON.</p>
-                    <a href="Seminar_fix.html" class="btn-outline">Learn More</a>
+                    <button class="btn-outline" onclick="showAlert('Seminar')">Learn More</button>
                 </div>
                 <div class="seminar-image">
                     <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Seminar">
@@ -1634,7 +1733,7 @@
                     </div>
                     <div class="timeline-content">
                         <h3>Proses Seleksi Berkas Peserta</h3>
-                        <p>16 Agustus 2025 – 23 Agustus 202</p>
+                        <p>16 Agustus 2025 – 23 Agustus 2025</p>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -1654,7 +1753,8 @@
                         <h3>Pengumuman TOP 5</h3>
                         <p>6 September 2025</p>
                     </div>
-                </div><div class="timeline-item">
+                </div>
+                <div class="timeline-item">
                     <div class="timeline-dot">
                         <i class="fas fa-trophy"></i>
                     </div>
@@ -1693,7 +1793,7 @@
                     <p>Rp1.500.000,00</p>
                 </div>
                 <div class="prize-card">
-                    <i class="fas fa-medal" style="color: #cd7f32; font-size: 50px;"></i> <!-- Perunggu -->
+                    <i class="fas fa-medal" style="color: #cd7f32; font-size: 50px;"></i>
                     <h3>Juara 3</h3>
                     <p>Rp1.000.000,00</p>
                 </div>
@@ -1713,7 +1813,7 @@
                     <p>Rp1.500.000,00</p>
                 </div>
                 <div class="prize-card">
-                    <i class="fas fa-medal" style="color: #cd7f32; font-size: 50px;"></i> <!-- Perunggu -->
+                    <i class="fas fa-medal" style="color: #cd7f32; font-size: 50px;"></i>
                     <h3>Juara 3</h3>
                     <p>Rp1.000.000,00</p>
                 </div>
@@ -1773,21 +1873,18 @@
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
-                    <h4 style="margin-top: 20px; font-size: 18px; color: white; font-weight: 700;">Lomba UI/UX Inforvation 2025</h4>
-                    <ul style="list-style: none; padding-left: 0; color: white; font-size: 16px;">
-                    <li><strong>Juara 1:</strong> Rp2.500.000</li>
-                    <li><strong>Juara 2:</strong> Rp1.500.000</li>
-                    <li><strong>Juara 3:</strong> Rp1.000.000</li>
+                    <h4>Lomba UI/UX Inforvation 2025</h4>
+                    <ul>
+                        <li><strong>Juara 1:</strong> Rp2.500.000</li>
+                        <li><strong>Juara 2:</strong> Rp1.500.000</li>
+                        <li><strong>Juara 3:</strong> Rp1.000.000</li>
                     </ul>
-
-                    <h4 style="margin-top: 20px; font-size: 18px; color: white; font-weight: 700;">Lomba Esai Ilmiah Inforvation 2025</h4>
-                    <ul style="list-style: none; padding-left: 0; color: white; font-size: 16px;">
-                    <li><strong>Juara 1:</strong> Rp2.500.000</li>
-                    <li><strong>Juara 2:</strong> Rp1.500.000</li>
-                    <li><strong>Juara 3:</strong> Rp1.000.000</li>
+                    <h4>Lomba Esai Ilmiah Inforvation 2025</h4>
+                    <ul>
+                        <li><strong>Juara 1:</strong> Rp2.500.000</li>
+                        <li><strong>Juara 2:</strong> Rp1.500.000</li>
+                        <li><strong>Juara 3:</strong> Rp1.000.000</li>
                     </ul>
-
-
                 </div>
             </div>
         </div>
@@ -1821,12 +1918,9 @@
                     </div>
                     <div class="form-buttons">
                         <button type="submit" class="btn-submit">Submit via WhatsApp</button>
-                        <button type="reset" class="btn-clear">Clear</button>
+                        <button type="button" class="btn-clear" onclick="clearForm()">Clear</button>
                     </div>
                 </form>
-
-
-
             </div>
         </div>
     </section>
@@ -1839,15 +1933,14 @@
                 <div class="telkom-info">
                     <div class="telkom-header">
                         <div class="telkom-logo">
-                            Telkom<br>University
+                            <img src="Logo Telkom 4 copy.png" alt="Telkom University Logo" class="telkom-title" />
                         </div>
-                        <div class="telkom-title">Telkom University</div>
                     </div>
                 </div>
                 <div class="address-section">
                     <h4>Alamat</h4>
                     <p class="address-text">
-                        Jl. Minangkabau selatan
+                        Jl. Minangkabau Barat No.50, RT.1/RW.1, Ps. Manggis, Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12970.
                     </p>
                 </div>
             </div>
@@ -1858,8 +1951,8 @@
                     <div class="faq-column">
                         <h4>FAQ</h4>
                         <ul class="faq-links">
-                            <li><a href="#faq">Umum</a></li>
-                            <li><a href="https://drive.google.com/drive/folders/157pvbFW-c2izNdsTupXvQEF4GQ7iLJ2o?usp=sharing">Pedoman dan Persyaratan</a></li>
+                            <li><a href="#faq" onclick="scrollToSection('faq')">Umum</a></li>
+                            <li><a href="https://bit.ly/3ZHLW2P?r=qr" target="_blank">Pedoman dan Persyaratan</a></li>
                         </ul>
                     </div>
                     <div class="faq-column">
@@ -1873,18 +1966,18 @@
             <div class="footer-section contact-section">
                 <h3>Ada Pertanyaan?</h3>
                 <p>Hubungi kami sekarang, jika ada pertanyaan lebih lanjut.</p>
-                <a href="#contact" class="contact-btn">Kontak Kami</a>
+                <a href="#contact" class="contact-btn" onclick="scrollToSection('contact')">Kontak Kami</a>
             </div>
         </div>
 
-
-
         <!-- Social Media -->
         <div class="footer-social">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.instagram.com/inforvationtuj/" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=inforvationtukj@gmail.com" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-envelope"></i> 
+        </a>
         </div>
         
         <div class="footer-bottom">
@@ -1894,7 +1987,26 @@
 
     <!-- JavaScript -->
     <script>
+        // Loading animation - akan hilang setelah 1 detik
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('loader-hidden');
+                }
+            }, 1000);
+        });
 
+        // Smooth scroll function
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+            closeMobileMenu();
+        }
+
+        // WhatsApp form submission
         function sendToWhatsApp() {
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
@@ -1912,144 +2024,37 @@
             const whatsappURL = `https://wa.me/6285693516592?text=${encodeURIComponent(text)}`;
             window.open(whatsappURL, '_blank');
 
-            return false; // Mencegah form reload
+            return false;
         }
-        // Loading animation
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.querySelector('.loader-container').classList.add('loader-hidden');
-            }, 1000);
-        });
 
-        // Hamburger Menu Functionality - Optimized for Android
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const closeMenu = document.getElementById('closeMenu');
-            const menuOverlay = document.getElementById('menuOverlay');
-            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-nav a');
+        // Clear form function
+        function clearForm() {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("university").value = "";
+            document.getElementById("message").value = "";
+        }
 
-            // Prevent default touch behaviors
-            function preventDefaultTouch(e) {
-                e.preventDefault();
-            }
+        // Redirect function
+        function redirectTo(page) {
+            window.location.href = page;
+        }
 
-            // Open menu
-            hamburger.addEventListener('click', function(e) {
-                e.preventDefault();
-                mobileMenu.classList.add('active');
-                menuOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Prevent scrolling on background
-                document.addEventListener('touchmove', preventDefaultTouch, { passive: false });
-            });
+        // Mobile menu functions
+        function openMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-            // Close menu function
-            function closeMobileMenu() {
-                mobileMenu.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                
-                // Re-enable scrolling
-                document.removeEventListener('touchmove', preventDefaultTouch);
-            }
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-            // Close menu events
-            closeMenu.addEventListener('click', function(e) {
-                e.preventDefault();
-                closeMobileMenu();
-            });
-
-            menuOverlay.addEventListener('click', function(e) {
-                e.preventDefault();
-                closeMobileMenu();
-            });
-
-            // Close menu when clicking on links
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    closeMobileMenu();
-                    // Smooth scroll to section
-                    const targetId = this.getAttribute('href');
-                    if (targetId.startsWith('#')) {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }
-                });
-            });
-
-            // Close menu on escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                    closeMobileMenu();
-                }
-            });
-
-            // Smooth scrolling for all anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-
-            // Scroll animations
-            function isInViewport(element) {
-                const rect = element.getBoundingClientRect();
-                return (
-                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
-                    rect.bottom >= 0
-                );
-            }
-
-            const animatedElements = document.querySelectorAll('.about-card, .competition-card, .timeline-item, .prize-card');
-
-            function checkAnimations() {
-                animatedElements.forEach((element, index) => {
-                    if (isInViewport(element)) {
-                        setTimeout(() => {
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    }
-                });
-            }
-
-            // Initial setup for animation elements
-            animatedElements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(30px)';
-                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            });
-
-            // Check animations on scroll and load
-            checkAnimations();
-            window.addEventListener('scroll', checkAnimations);
-
-            // Add hover pulse animation to buttons
-            const buttons = document.querySelectorAll('.btn-learn, .btn-contact, .btn-outline, .btn-submit, .btn-clear, .contact-btn');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.animation = 'pulse 0.5s ease-in-out';
-                });
-                button.addEventListener('animationend', function() {
-                    this.style.animation = '';
-                });
-            });
-        });
-
-        // FAQ Toggle Function
+        // FAQ toggle function
         function toggleFAQ(button) {
             const answer = button.nextElementSibling;
             const icon = button.querySelector('i');
@@ -2077,81 +2082,33 @@
             }
         }
 
-        // Form handling
-        document.querySelector('.contact-form form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simple form validation
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = '#ff0000';
-                    setTimeout(() => {
-                        field.style.borderColor = '';
-                    }, 3000);
-                } else {
-                    field.style.borderColor = '#00ff00';
-                    setTimeout(() => {
-                        field.style.borderColor = '';
-                    }, 1000);
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const closeMenu = document.getElementById('closeMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+
+            // Hamburger menu
+            hamburger.addEventListener('click', openMobileMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuOverlay.addEventListener('click', closeMobileMenu);
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
                 }
             });
-            
-            if (isValid) {
-                alert('Terima kasih! Pesan Anda telah terkirim.');
-                this.reset();
-            } else {
-                alert('Mohon lengkapi semua field yang wajib diisi.');
-            }
-        });
 
-        // Clear form
-        document.querySelector('.btn-clear').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('.contact-form form').reset();
-        });
-
-        // Parallax effect for hero section
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            const rate = scrolled * -0.5;
-            
-            if (hero) {
-                hero.style.transform = `translateY(${rate}px)`;
-            }
-        });
-
-        // Add loading states for buttons
-        function addLoadingState(button) {
-            const originalText = button.textContent;
-            button.textContent = 'Loading...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.disabled = false;
-            }, 2000);
-        }
-
-        // Add click handlers for action buttons
-        document.querySelectorAll('.btn-learn, .btn-contact, .btn-outline').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                addLoadingState(this);
+            // Smooth scrolling for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    scrollToSection(targetId);
+                });
             });
-
-
-        document.getElementById('').addEventListener('click', function(e) {
-            e.preventDefault(); // mencegah aksi default <a href="#">
-        });
-
         });
     </script>
 </body>
 </html>
-
-
